@@ -1,0 +1,19 @@
+conservative:
+  - name: "Fox News"
+    type: "media"
+    urls:
+      - "https://www.foxnews.com/"
+  - name: "The Daily Wire"
+    type: "media"
+    urls:
+      - "https://www.dailywire.com/"
+
+liberal:
+  - name: "The Intercept"
+    type: "media"
+    urls:
+      - "https://theintercept.com/"
+  - name: "Jacobin"
+    type: "media"
+    urls:
+      - "https://jacobin.com/"
