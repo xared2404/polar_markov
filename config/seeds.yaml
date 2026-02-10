@@ -1,19 +1,19 @@
 conservative:
-  - name: "Fox News"
+  - name: "Fox News (US RSS)"
     type: "media"
     urls:
-      - "https://www.foxnews.com/"
-  - name: "The Daily Wire"
+      - "https://moxie.foxnews.com/google-publisher/us.xml"
+  - name: "National Review (RSS)"
     type: "media"
     urls:
-      - "https://www.dailywire.com/"
+      - "https://www.nationalreview.com/feed"
 
 liberal:
-  - name: "The Intercept"
+  - name: "The Intercept (RSS)"
     type: "media"
     urls:
-      - "https://theintercept.com/"
-  - name: "Jacobin"
+      - "https://theintercept.com/feed"
+  - name: "Jacobin (RSS)"
     type: "media"
     urls:
-      - "https://jacobin.com/"
+      - "https://jacobin.com/feed"
