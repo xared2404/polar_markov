@@ -1,0 +1,24 @@
+{
+  "conservative": {
+    "states": ["S0","S1"],
+    "P": [[0.6,0.4],[0.5,0.5]],
+    "entropy": [0.673,0.693],
+    "loop_strength": [0.6,0.5],
+    "n_sequences": 2
+  },
+  "liberal": {
+    "states": ["S0","S1"],
+    "P": [[0.55,0.45],[0.4,0.6]],
+    "entropy": [0.688,0.673],
+    "loop_strength": [0.55,0.6],
+    "n_sequences": 2
+  },
+  "divergence": {
+    "KL_conservative||liberal": 0.0123,
+    "KL_liberal||conservative": 0.0109
+  },
+  "actor_stats": [
+    {"pole":"conservative","actor":"Example A","n_sequences":1,"mean_entropy":0.65,"mean_loop":0.58},
+    {"pole":"liberal","actor":"Example B","n_sequences":1,"mean_entropy":0.67,"mean_loop":0.56}
+  ]
+}
