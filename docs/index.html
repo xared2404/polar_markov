@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Polar Markov Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="wrap">
+    <h1>Polar Markov Explorer</h1>
+    <p class="muted">Static GitHub Pages dashboard</p>
+  </header>
+
+  <main class="wrap grid">
+    <section class="card">
+      <h2>Controls</h2>
+
+      <label class="lbl">View</label>
+      <select id="viewMode">
+        <option value="pole" selected>By pole</option>
+        <option value="actor">By actor</option>
+      </select>
+
+      <div class="row">
+        <div class="col">
+          <label class="lbl">Pole</label>
+          <select id="poleSel">
+            <option value="conservative" selected>conservative</option>
+            <option value="liberal">liberal</option>
+          </select>
+        </div>
+        <div class="col">
+          <label class="lbl">Actor</label>
+          <select id="actorSel" disabled></select>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="k">Sequences</div><div id="seqCount" class="v">–</div></div>
+        <div class="stat"><div class="k">Mean entropy</div><div id="meanEntropy" class="v">–</div></div>
+        <div class="stat"><div class="k">Mean loop</div><div id="meanLoop" class="v">–</div></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat wide"><div class="k">KL(conservative || liberal)</div><div id="klCL" class="v">–</div></div>
+        <div class="stat wide"><div class="k">KL(liberal || conservative)</div><div id="klLC" class="v">–</div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Heatmap</h2>
+      <img id="heatmapImg" class="img" alt="Markov heatmap"/>
+      <p class="muted small">Row-normalized transition matrix (Laplace-smoothed).</p>
+    </section>
+
+    <section class="card">
+      <h2>Top transitions</h2>
+      <table class="table" id="transTable">
+        <thead><tr><th>From</th><th>To</th><th>P</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Report (MD)</h2>
+      <pre id="reportBox" class="pre">Loading…</pre>
+    </section>
+  </main>
+
+  <footer class="wrap muted small">
+    Generated via <code>scripts/06_build_site.py</code> and published with GitHub Actions.
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
