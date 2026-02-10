@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Data outputs (keep reports folder structure, ignore large intermediates)
+data/raw/
+data/clean/
+data/features/
+
+# Local build artifacts
+*.log
