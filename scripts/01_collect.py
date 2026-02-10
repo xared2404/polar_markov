@@ -7,9 +7,10 @@ import yaml, orjson
 from src.http_client import HttpClient, FetchConfig
 from src.text_utils import extract_links, extract_visible_text
 
-RSS_LINK_LIMIT = 60          # links a leer del feed
-RSS_FETCH_LIMIT = 25         # artículos a bajar del feed (por actor)
-PAGE_FETCH_LIMIT = 25        # páginas a bajar desde homepage (no RSS)
+RSS_LINK_LIMIT = 60
+RSS_FETCH_LIMIT = 25
+PAGE_FETCH_LIMIT = 25
+MIN_WORDS = 80
 
 def load_yaml(p: str|Path) -> dict:
     return yaml.safe_load(Path(p).read_text(encoding="utf-8")) or {}
@@ -28,8 +29,6 @@ def parse_rss_links(xml_text: str, limit: int = RSS_LINK_LIMIT) -> list[str]:
         return []
 
     links = []
-
-    # RSS: <item><link>
     for item in root.findall(".//item"):
         link = item.findtext("link")
         if link:
@@ -37,7 +36,6 @@ def parse_rss_links(xml_text: str, limit: int = RSS_LINK_LIMIT) -> list[str]:
         if len(links) >= limit:
             return links
 
-    # Atom fallback
     ns = "{http://www.w3.org/2005/Atom}"
     for entry in root.findall(f".//{ns}entry"):
         for ln in entry.findall(f"{ns}link"):
@@ -66,9 +64,16 @@ async def fetch_pages(client: HttpClient, urls: list[str], limit: int) -> list[d
             try:
                 html = await client.get_text(url)
                 text = extract_visible_text(html)
-                return {"url": url, "text": text}
+                wc = len(text.split())
+                return {
+                    "url": url,
+                    "text": text,
+                    "word_count": wc,
+                    "too_short": wc < MIN_WORDS,
+                    "snippet": text[:240]
+                }
             except Exception as e:
-                return {"url": url, "error": repr(e), "text": ""}
+                return {"url": url, "error": repr(e), "text": "", "word_count": 0, "too_short": True}
 
     tasks = [_one(u) for u in out]
     res = []
@@ -131,7 +136,9 @@ async def main():
                             "seed": seed_url,
                             "url": seed_url,
                             "error": repr(e),
-                            "text": ""
+                            "text": "",
+                            "word_count": 0,
+                            "too_short": True
                         })
                         print(f"[WARN] {pole}/{actor['name']} seed failed: {seed_url} -> {e.__class__.__name__}")
 
@@ -140,10 +147,10 @@ async def main():
                     for r in all_rows:
                         f.write(orjson.dumps(r) + b"\n")
 
-                # conteo “útil”
-                useful = sum(1 for r in all_rows if (r.get("text") or "").strip())
+                useful = sum(1 for r in all_rows if (r.get("text") or "").strip() and not r.get("too_short", False))
+                short = sum(1 for r in all_rows if r.get("too_short", False))
                 if ok_any:
-                    print(f"[OK] {pole}/{actor['name']} docs={len(all_rows)} useful={useful}")
+                    print(f"[OK] {pole}/{actor['name']} docs={len(all_rows)} useful={useful} too_short={short}")
                 else:
                     print(f"[SKIP] {pole}/{actor['name']} (all seeds failed)")
 
