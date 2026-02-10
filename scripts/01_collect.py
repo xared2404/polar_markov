@@ -93,6 +93,10 @@ async def main():
                 all_rows = []
                 ok_any = False
 
+                rss_links_n = 0
+                pages_fetched = 0
+                pages_error = 0
+
                 for seed_url in actor.get("urls", []):
                     try:
                         raw = await client.get_text(seed_url)
@@ -100,6 +104,7 @@ async def main():
 
                         if looks_like_rss(seed_url):
                             links = parse_rss_links(raw, limit=RSS_LINK_LIMIT)
+                            rss_links_n += len(links)
                             all_rows.append({
                                 "actor": actor["name"],
                                 "type": actor.get("type",""),
@@ -120,6 +125,9 @@ async def main():
                                 "mode": "html_seed"
                             })
                             pages = await fetch_pages(client, links, limit=PAGE_FETCH_LIMIT)
+
+                        pages_fetched += len(pages)
+                        pages_error += sum(1 for p in pages if "error" in p)
 
                         for p in pages:
                             p.update({
@@ -150,7 +158,8 @@ async def main():
                 useful = sum(1 for r in all_rows if (r.get("text") or "").strip() and not r.get("too_short", False))
                 short = sum(1 for r in all_rows if r.get("too_short", False))
                 if ok_any:
-                    print(f"[OK] {pole}/{actor['name']} docs={len(all_rows)} useful={useful} too_short={short}")
+                    extra = f" rss_links={rss_links_n} pages={pages_fetched} page_errors={pages_error}"
+                    print(f"[OK] {pole}/{actor['name']} docs={len(all_rows)} useful={useful} too_short={short}{extra}")
                 else:
                     print(f"[SKIP] {pole}/{actor['name']} (all seeds failed)")
 
