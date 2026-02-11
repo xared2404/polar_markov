@@ -2,47 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Polar Markov Explorer</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <header class="wrap">
     <h1>Polar Markov Explorer</h1>
-    <p class="muted">Static dashboard (GitHub Pages) — Markov chains over frame sequences.</p>
+    <p class="muted">
+      RSS → full article text → frame sequences → Markov chains (pole + actor)
+    </p>
   </header>
 
-  <main class="wrap grid">
+  <main class="wrap">
     <section class="card">
-      <h2>Pick view</h2>
+      <h2>Controls</h2>
 
-      <div class="row">
-        <label for="viewSelect">View</label>
-        <select id="viewSelect"></select>
+      <div class="grid">
+        <label class="field">
+          <span class="label">Pole</span>
+          <select id="poleSelect"></select>
+        </label>
+
+        <label class="field">
+          <span class="label">Actor</span>
+          <select id="actorSelect"></select>
+        </label>
+
+        <label class="field">
+          <span class="label">View</span>
+          <select id="viewSelect">
+            <option value="summary" selected>Summary</option>
+            <option value="matrix">Transition matrix (P)</option>
+            <option value="top">Top transitions</option>
+          </select>
+        </label>
       </div>
 
       <div class="row">
-        <label for="actorSelect">Actor (optional)</label>
-        <select id="actorSelect" disabled></select>
+        <button id="refreshBtn" class="btn">Reload data</button>
+        <span id="status" class="muted small"></span>
       </div>
-
-      <div id="stats" class="stats"></div>
     </section>
 
     <section class="card">
-      <h2>Transition matrix</h2>
-      <div id="matrixWrap" class="matrixWrap"></div>
-      <p class="muted">Tip: values are row-normalized probabilities P(sᵢ→sⱼ).</p>
+      <h2>Output</h2>
+      <div id="out" class="out"></div>
     </section>
 
-    <section class="card full">
-      <h2>Report</h2>
-      <pre id="report" class="report"></pre>
+    <section class="card">
+      <h2>Report (generated)</h2>
+      <div class="muted small">Pulled from <code>docs/data/report.md</code></div>
+      <pre id="report" class="pre"></pre>
     </section>
   </main>
 
   <footer class="wrap muted small">
-    Generated from <code>data/reports/markov/markov_results.json</code>
+    <span>Built from repo data/reports/markov/markov_results.json via scripts/06_build_site.py</span>
   </footer>
 
   <script src="./app.js"></script>
