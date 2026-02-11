@@ -1139,7 +1139,7 @@
     "KL_conservative||liberal": 4.031858028069176,
     "KL_liberal||conservative": 3.9446058423231207
   },
-  "actors_min_seqs": 5,
+  "actors_min_seqs": 3,
   "actors": {
     "conservative::Fox_News": {
       "pole": "conservative",

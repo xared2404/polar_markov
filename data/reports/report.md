@@ -43,7 +43,7 @@
 - S14 → S6: 0.150
 
 ## Actor-level Markov availability
-- Saved actor matrices: 4 (min_seqs=5)
+- Saved actor matrices: 4 (min_seqs=3)
 
 ## Most rigid actors (low mean entropy)
 - [conservative] Fox News | seqs=24 | mean_entropy=2.458 | mean_loop=0.135
