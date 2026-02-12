@@ -15,6 +15,12 @@
   </header>
 
   <main class="wrap">
+    <section class="card" id="debugCard">
+      <h2>Debug</h2>
+      <div class="muted small">If you see this but controls don’t populate, <code>app.js</code> may not be loading or data fetch failed.</div>
+      <pre id="debug" class="pre">boot…</pre>
+    </section>
+
     <section class="card">
       <h2>Controls</h2>
 
@@ -61,6 +67,6 @@
     <span>Built from repo data/reports/markov/markov_results.json via scripts/06_build_site.py</span>
   </footer>
 
-  <script src="./app.js"></script>
+  <script src="./app.js?v=3"></script>
 </body>
 </html>
